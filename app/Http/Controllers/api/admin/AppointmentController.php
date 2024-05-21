@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AppointmentResource;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -12,54 +14,45 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = Appointment::paginate(10);
+
+        return $this->response($appointments);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        //
+        
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    
+    public function show(Appointment $appointment)
     {
-        //
+        $appt = Appointment::find($appointment);
+
+        return $this->response($appt);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    
+   
+    public function update(Request $request, appointment $appointment)
     {
-        //
-    }
+        $appt = Appointment::find($appointment->id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $appt->status = $request->status;
+
+        $appt->save();
+
+        return $this->success('Appointment updated successfully', $appt);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Appointment $appointment)
     {
-        //
+        $appointment->delete();
+
+        return $this->success('Appointment deleted successfully');
     }
 }

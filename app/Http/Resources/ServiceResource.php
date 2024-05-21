@@ -1,22 +1,28 @@
-<?php
+<?php 
 
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\App;
 
 class ServiceResource extends JsonResource
 {
-
-    public function toArray(Request $request)
+    public function toArray($request)
     {
-        return [
+        $data = [
             'id' => $this->id,
-            'title_uz' => $this->title_uz,
-            'title_ru' => $this->title_ru,
-            'description_uz' => $this->description_uz,
-            'description_ru' => $this->description_ru,
             'image' => $this->image,
         ];
+
+        if (App::getLocale() == 'ru') {
+            $data['title'] = $this->title_ru;
+            $data['description'] = $this->description_ru;
+        } else {
+            $data['title'] = $this->title_uz;
+            $data['description'] = $this->description_uz;
+        }
+
+        return $data;
     }
 }

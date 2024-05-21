@@ -22,7 +22,7 @@ class SignupRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password',
-            'image' => 'nullable',
+            'image' => 'nullable|image|mimes:,jpeg|max:4048',
             'role' => 'nullable',
         ];
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ServiceStoreRequest;
 use App\Http\Requests\ServiceUpdateRequest;
+use App\Http\Resources\ServiceResource;
 use App\Models\Service;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,10 +37,10 @@ class ServiceController extends Controller
             'title_ru' => $request->title_ru,
             'description_uz' => $request->description_uz,
             'description_ru' => $request->description_ru,
-            'image' => $path
+            'image' => $path ?? null
         ]);
 
-        return $this->success('service successfully stored', $service);
+        return $this->success('service successfully stored', new ServiceResource($service));
     }
 
 

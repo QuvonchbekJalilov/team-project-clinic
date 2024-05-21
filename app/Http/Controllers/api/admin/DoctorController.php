@@ -17,11 +17,25 @@ class DoctorController extends Controller
         $this->authorizeResource(Doctor::class, 'doctor');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $doctors = Doctor::paginate(20);
+        $postQuery = Doctor::query();
 
-        return $this->response($doctors);
+        if ($request->filled('first_name')) {
+            $postQuery->whereHas('user', function ($query) use ($request) {
+                $query->where('first_name', 'like', "%" . $request->input('first_name') . "%");
+            });
+        }
+
+        if ($request->filled('last_name')) {
+            $postQuery->whereHas('category', function ($query) use ($request) {
+                $query->where('last_name', 'like', "%" . $request->input('last_name') . "%");
+            });
+        }
+
+        $posts = $postQuery->paginate(5);
+
+        return $this->response($posts);
     }
 
 
@@ -46,7 +60,7 @@ class DoctorController extends Controller
     public function show(Doctor $doctor)
     {
         $doctor = Doctor::find($doctor->id);
-        return $this->response(new DoctorResource($doctor));
+        return $this->response($doctor);
     }
 
     

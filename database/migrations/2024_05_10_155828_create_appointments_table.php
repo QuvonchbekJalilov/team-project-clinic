@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('doctor_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('service_id')->constrained()->cascadeOnDelete();
             $table->string('date');
             $table->string('status')->default('Yangi mijoz');
             $table->timestamps();

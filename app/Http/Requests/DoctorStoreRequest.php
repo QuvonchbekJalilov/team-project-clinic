@@ -25,7 +25,7 @@ class DoctorStoreRequest extends FormRequest
             'instagram_url' => 'nullable',
             'cost' => 'required',
             'experience' => 'required',
-            'image' => 'nullable|image:jpeg|size:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'service_id' => 'required'
         ];
     }

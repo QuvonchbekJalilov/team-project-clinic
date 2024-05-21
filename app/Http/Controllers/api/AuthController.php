@@ -16,7 +16,7 @@ class AuthController extends Controller
 {
     public function signup(SignupRequest $request)
     {
-        $random_unique_id = mt_rand(111111, 999999);
+        $random_unique_id = $this->generateUniqueRandomId();
         $user = $request->validated();
         if (request()->hasFile('image')) {
             $path = $request->file('image')->store('user/' . time(), 'public');
@@ -40,6 +40,15 @@ class AuthController extends Controller
         $token = $user->createToken('main')->plainTextToken;
 
         return $this->success('user created successfully', $token);
+    }
+
+    private function generateUniqueRandomId()
+    {
+        $random_id = mt_rand(111111, 999999);
+        while (User::where('unique_id', $random_id)->exists()) {
+            $random_id = mt_rand(111111, 999999);
+        }
+        return $random_id;
     }
 
     public function login(LoginRequest $request)

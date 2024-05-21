@@ -16,7 +16,6 @@ class AppointmentStoreRequest extends FormRequest
     {
         return [
             'doctor_id' => 'required',
-            'service_id' => 'required',
             'date' => 'required',
         ];
     }
